@@ -1,0 +1,487 @@
+2025-11-11 03:22:50,387 INFO: Logging started for scenario: test
+2025-11-11 03:22:50,387 INFO: Scenario test: target 1.00GB across 5 tables
+2025-11-11 03:22:50,387 INFO: Starting CSV generation with 4 workers
+2025-11-11 03:22:50,394 INFO: Generating for tbl_1 with target rows 143816
+2025-11-11 03:22:50,394 INFO: Generating for tbl_2 with target rows 130477
+2025-11-11 03:22:50,395 INFO: Generating for tbl_3 with target rows 163775
+2025-11-11 03:22:50,395 INFO: Generating for tbl_4 with target rows 169639
+2025-11-11 03:22:51,842 INFO: Generating for tbl_5 with target rows 157279
+2025-11-11 03:23:14,166 INFO: CSV generation completed for 5 tables
+2025-11-11 03:23:14,166 INFO: Starting LOAD DATA with 4 workers
+2025-11-11 03:23:14,424 ERROR: Scenario failed
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Access denied for user 'adminuser'@'198.145.36.133' (using password: YES)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 526, in _load_table_helper
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 258, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1045 (28000): Access denied for user 'adminuser'@'198.145.36.133' (using password: YES)
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 557, in main
+    result = run_scenario(scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 472, in run_scenario
+    for table_name, ok in p.imap_unordered(_load_table_helper, load_tasks):
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 873, in next
+    raise value
+mysql.connector.errors.ProgrammingError: 1045 (28000): Access denied for user 'adminuser'@'198.145.36.133' (using password: YES)
+2025-11-11 03:23:14,425 INFO: Total elapsed time: 24 seconds
+2025-11-11 03:25:54,841 INFO: Logging started for scenario: test
+2025-11-11 03:25:54,841 INFO: Scenario test: target 1.00GB across 5 tables
+2025-11-11 03:25:54,841 INFO: Starting CSV generation with 4 workers
+2025-11-11 03:25:54,848 INFO: Generating for tbl_2 with target rows 168900
+2025-11-11 03:25:54,848 INFO: Generating for tbl_1 with target rows 224566
+2025-11-11 03:25:54,848 INFO: Generating for tbl_3 with target rows 158346
+2025-11-11 03:25:54,848 INFO: Generating for tbl_4 with target rows 206704
+2025-11-11 03:26:14,288 INFO: Generating for tbl_5 with target rows 194559
+2025-11-11 03:27:35,283 INFO: CSV generation completed for 5 tables
+2025-11-11 03:27:35,283 INFO: Starting LOAD DATA with 4 workers
+2025-11-11 03:27:35,543 ERROR: Scenario failed
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Unknown database 'synthetic_db'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 526, in _load_table_helper
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 258, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1049 (42000): Unknown database 'synthetic_db'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 557, in main
+    result = run_scenario(scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 472, in run_scenario
+    for table_name, ok in p.imap_unordered(_load_table_helper, load_tasks):
+  File "/usr/lib/python3.10/multiprocessing/pool.py", line 873, in next
+    raise value
+mysql.connector.errors.ProgrammingError: 1049 (42000): Unknown database 'synthetic_db'
+2025-11-11 03:27:35,544 INFO: Total elapsed time: 100 seconds
+2025-11-11 03:31:38,174 INFO: Logging started for scenario: test
+2025-11-11 03:31:38,174 INFO: Scenario test: target 1.00GB across 5 tables
+2025-11-11 03:31:38,174 INFO: Starting CSV generation with 4 workers
+2025-11-11 03:31:38,180 INFO: Generating for tbl_1 with target rows 243387
+2025-11-11 03:31:38,180 INFO: Generating for tbl_2 with target rows 219063
+2025-11-11 03:31:38,181 INFO: Generating for tbl_4 with target rows 181984
+2025-11-11 03:31:38,181 INFO: Generating for tbl_3 with target rows 204346
+2025-11-11 03:31:43,627 INFO: Generating for tbl_5 with target rows 201517
+2025-11-11 03:32:57,884 INFO: CSV generation completed for 5 tables
+2025-11-11 03:32:57,884 ERROR: Unable to ensure database exists; aborting load phase
+2025-11-11 03:32:57,884 ERROR: Scenario failed
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 594, in main
+    result = run_scenario(scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 486, in run_scenario
+    ensure_database_exists()
+TypeError: ensure_database_exists() missing 1 required positional argument: 'database_name'
+2025-11-11 03:32:57,885 INFO: Total elapsed time: 79 seconds
+2025-11-11 03:35:13,698 INFO: Logging started for scenario: test
+2025-11-11 03:35:13,698 INFO: Scenario test: target 1.00GB across 5 tables
+2025-11-11 03:35:13,699 INFO: Starting CSV generation with 4 workers
+2025-11-11 03:35:13,706 INFO: Generating for tbl_1 with target rows 213229
+2025-11-11 03:35:13,706 INFO: Generating for tbl_3 with target rows 248670
+2025-11-11 03:35:13,706 INFO: Generating for tbl_2 with target rows 312419
+2025-11-11 03:35:13,706 INFO: Generating for tbl_4 with target rows 257334
+2025-11-11 03:35:50,839 INFO: Generating for tbl_5 with target rows 265841
+2025-11-11 03:37:43,753 INFO: CSV generation completed for 5 tables
+2025-11-11 03:37:43,753 INFO: Starting LOAD DATA with 4 workers
+2025-11-11 03:37:44,264 INFO: Loading file /space/big_query_csvs/test/tbl_1_part1.csv into tbl_1
+2025-11-11 03:37:44,271 INFO: Loading file /space/big_query_csvs/test/tbl_3_part1.csv into tbl_3
+2025-11-11 03:37:44,279 INFO: Loading file /space/big_query_csvs/test/tbl_2_part1.csv into tbl_2
+2025-11-11 03:37:44,285 INFO: Loading file /space/big_query_csvs/test/tbl_4_part1.csv into tbl_4
+2025-11-11 03:37:54,757 INFO: Loading file /space/big_query_csvs/test/tbl_2_part2.csv into tbl_2
+2025-11-11 03:37:59,908 INFO: Loading file /space/big_query_csvs/test/tbl_1_part2.csv into tbl_1
+2025-11-11 03:38:01,749 INFO: Loading file /space/big_query_csvs/test/tbl_3_part2.csv into tbl_3
+2025-11-11 03:38:03,765 INFO: Loading file /space/big_query_csvs/test/tbl_2_part3.csv into tbl_2
+2025-11-11 03:38:10,229 INFO: Loading file /space/big_query_csvs/test/tbl_4_part2.csv into tbl_4
+2025-11-11 03:38:12,874 INFO: Loading file /space/big_query_csvs/test/tbl_2_part4.csv into tbl_2
+2025-11-11 03:38:17,442 INFO: Loading file /space/big_query_csvs/test/tbl_3_part3.csv into tbl_3
+2025-11-11 03:38:17,491 INFO: Loading file /space/big_query_csvs/test/tbl_1_part3.csv into tbl_1
+2025-11-11 03:38:20,393 INFO: Loading file /space/big_query_csvs/test/tbl_2_part5.csv into tbl_2
+2025-11-11 03:38:28,131 INFO: Loading file /space/big_query_csvs/test/tbl_4_part3.csv into tbl_4
+2025-11-11 03:38:29,569 INFO: Loading file /space/big_query_csvs/test/tbl_2_part6.csv into tbl_2
+2025-11-11 03:38:33,939 INFO: Loading file /space/big_query_csvs/test/tbl_3_part4.csv into tbl_3
+2025-11-11 03:38:33,995 INFO: Loading file /space/big_query_csvs/test/tbl_1_part4.csv into tbl_1
+2025-11-11 03:38:36,193 INFO: Loading file /space/big_query_csvs/test/tbl_2_part7.csv into tbl_2
+2025-11-11 03:38:38,703 INFO: Loaded tbl_2: True
+2025-11-11 03:38:41,109 INFO: Loading file /space/big_query_csvs/test/tbl_4_part4.csv into tbl_4
+2025-11-11 03:38:41,207 INFO: Loading file /space/big_query_csvs/test/tbl_5_part1.csv into tbl_5
+2025-11-11 03:38:45,649 INFO: Loading file /space/big_query_csvs/test/tbl_3_part5.csv into tbl_3
+2025-11-11 03:38:48,308 INFO: Loading file /space/big_query_csvs/test/tbl_1_part5.csv into tbl_1
+2025-11-11 03:38:52,590 INFO: Loaded tbl_1: True
+2025-11-11 03:38:57,569 INFO: Loaded tbl_3: True
+2025-11-11 03:38:59,501 INFO: Loading file /space/big_query_csvs/test/tbl_4_part5.csv into tbl_4
+2025-11-11 03:39:04,662 INFO: Loading file /space/big_query_csvs/test/tbl_5_part2.csv into tbl_5
+2025-11-11 03:39:09,135 INFO: Loading file /space/big_query_csvs/test/tbl_4_part6.csv into tbl_4
+2025-11-11 03:39:10,849 INFO: Loaded tbl_4: True
+2025-11-11 03:39:19,495 INFO: Loading file /space/big_query_csvs/test/tbl_5_part3.csv into tbl_5
+2025-11-11 03:39:32,000 INFO: Loading file /space/big_query_csvs/test/tbl_5_part4.csv into tbl_5
+2025-11-11 03:39:44,665 INFO: Loading file /space/big_query_csvs/test/tbl_5_part5.csv into tbl_5
+2025-11-11 03:39:57,381 INFO: Loading file /space/big_query_csvs/test/tbl_5_part6.csv into tbl_5
+2025-11-11 03:40:01,404 INFO: Loaded tbl_5: True
+2025-11-11 03:40:01,799 INFO: Final DB size: 1.18GB across 1872666 rows
+2025-11-11 03:40:01,800 INFO: Updated cache measured_avg_row = 676.999486 bytes
+2025-11-11 03:40:01,800 INFO: Scenario completed. Result: {'total_bytes': 1267793920, 'total_rows': 1872666}
+2025-11-11 03:40:01,800 INFO: Total elapsed time: 288 seconds
+2025-11-13 01:33:52,222 INFO: Logging started for scenario: test
+2025-11-13 01:33:52,222 INFO: --- Attempt 1 / 5 ---
+2025-11-13 01:36:01,584 ERROR: Scenario failed
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Can't connect to MySQL server on 'sbera-500gb-500tables.mysql.database.azure.com:3306' (110)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 533, in main
+    result = run_scenario(args.scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 471, in run_scenario
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 249, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.DatabaseError: 2003 (HY000): Can't connect to MySQL server on 'sbera-500gb-500tables.mysql.database.azure.com:3306' (110)
+2025-11-13 01:36:01,587 INFO: Total elapsed time: 129 seconds
+2025-11-13 01:37:29,091 INFO: Logging started for scenario: test
+2025-11-13 01:37:29,091 INFO: --- Attempt 1 / 5 ---
+2025-11-13 01:37:29,355 ERROR: Scenario failed
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Unknown database 'synthetic_db'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 533, in main
+    result = run_scenario(args.scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 471, in run_scenario
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 249, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1049 (42000): Unknown database 'synthetic_db'
+2025-11-13 01:37:29,356 INFO: Total elapsed time: 0 seconds
+2025-11-13 01:38:12,558 INFO: Logging started for scenario: test
+2025-11-13 01:38:12,558 INFO: --- Attempt 1 / 5 ---
+2025-11-13 01:38:12,835 ERROR: Scenario failed
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Unknown database 'synthetic_db'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 533, in main
+    result = run_scenario(args.scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 471, in run_scenario
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 249, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1049 (42000): Unknown database 'synthetic_db'
+2025-11-13 01:38:12,836 INFO: Total elapsed time: 0 seconds
+2025-11-13 01:39:34,943 INFO: Logging started for scenario: test
+2025-11-13 01:39:34,943 INFO: --- Attempt 1 / 5 ---
+2025-11-13 01:39:35,203 ERROR: Scenario failed
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Unknown database 'synthetic_db'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 579, in main
+    result = run_scenario(args.scenario)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 517, in run_scenario
+    conn = mysql_connect()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 249, in mysql_connect
+    conn = mysql.connector.connect(**DB_CONFIG)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/lib/python3.10/site-packages/mysql/connector/connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1049 (42000): Unknown database 'synthetic_db'
+2025-11-13 01:39:35,204 INFO: Total elapsed time: 0 seconds
+2025-11-13 01:40:08,793 INFO: Logging started for scenario: test
+2025-11-13 01:40:08,793 INFO: Ensuring database exists: synthetic_db
+2025-11-13 01:40:09,197 INFO: Database ensured: synthetic_db
+2025-11-13 01:40:09,197 INFO: --- Attempt 1 / 5 ---
+2025-11-13 01:40:09,462 INFO: Scenario test: target 1.00GB across 5 tables
+2025-11-13 01:40:09,462 INFO: Starting CSV generation with 4 workers
+2025-11-13 01:40:09,471 INFO: Generating for tbl_1 with target rows 441672
+2025-11-13 01:40:09,471 INFO: Generating for tbl_2 with target rows 342689
+2025-11-13 01:40:09,471 INFO: Generating for tbl_4 with target rows 374557
+2025-11-13 01:40:09,471 INFO: Generating for tbl_3 with target rows 372710
+2025-11-13 01:40:22,251 INFO: Generating for tbl_5 with target rows 357918
+2025-11-13 01:43:04,514 INFO: CSV generation completed for 5 tables
+2025-11-13 01:43:04,514 INFO: Starting LOAD DATA with 4 workers
+2025-11-13 01:43:05,011 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part1.csv into tbl_2
+2025-11-13 01:43:05,017 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part1.csv into tbl_3
+2025-11-13 01:43:05,023 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part1.csv into tbl_4
+2025-11-13 01:43:05,032 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part1.csv into tbl_5
+2025-11-13 01:43:06,764 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part2.csv into tbl_2
+2025-11-13 01:43:08,524 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part3.csv into tbl_2
+2025-11-13 01:43:10,255 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part4.csv into tbl_2
+2025-11-13 01:43:11,184 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part2.csv into tbl_5
+2025-11-13 01:43:12,052 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part2.csv into tbl_3
+2025-11-13 01:43:12,061 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part5.csv into tbl_2
+2025-11-13 01:43:13,465 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part2.csv into tbl_4
+2025-11-13 01:43:13,885 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part6.csv into tbl_2
+2025-11-13 01:43:15,695 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part7.csv into tbl_2
+2025-11-13 01:43:17,197 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part3.csv into tbl_5
+2025-11-13 01:43:17,230 INFO: Loaded tbl_2: True
+2025-11-13 01:43:17,734 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part1.csv into tbl_1
+2025-11-13 01:43:18,271 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part3.csv into tbl_3
+2025-11-13 01:43:21,476 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part3.csv into tbl_4
+2025-11-13 01:43:22,045 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part4.csv into tbl_5
+2025-11-13 01:43:22,333 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part4.csv into tbl_3
+2025-11-13 01:43:27,466 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part5.csv into tbl_5
+2025-11-13 01:43:27,764 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part5.csv into tbl_3
+2025-11-13 01:43:29,677 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part4.csv into tbl_4
+2025-11-13 01:43:32,681 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part6.csv into tbl_5
+2025-11-13 01:43:33,010 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part6.csv into tbl_3
+2025-11-13 01:43:43,032 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part7.csv into tbl_3
+2025-11-13 01:43:43,032 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part7.csv into tbl_5
+2025-11-13 01:43:43,082 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part5.csv into tbl_4
+2025-11-13 01:43:43,082 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part2.csv into tbl_1
+2025-11-13 01:43:47,869 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part8.csv into tbl_3
+2025-11-13 01:43:48,426 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part8.csv into tbl_5
+2025-11-13 01:43:49,340 INFO: Loaded tbl_5: True
+2025-11-13 01:43:49,833 INFO: Loaded tbl_3: True
+2025-11-13 01:43:51,316 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part6.csv into tbl_4
+2025-11-13 01:43:56,286 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part7.csv into tbl_4
+2025-11-13 01:44:01,276 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part3.csv into tbl_1
+2025-11-13 01:44:02,703 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part8.csv into tbl_4
+2025-11-13 01:44:05,244 INFO: Loaded tbl_4: True
+2025-11-13 01:44:13,868 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part4.csv into tbl_1
+2025-11-13 01:44:25,096 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part5.csv into tbl_1
+2025-11-13 01:44:36,445 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part6.csv into tbl_1
+2025-11-13 01:44:47,738 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part7.csv into tbl_1
+2025-11-13 01:44:59,131 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part8.csv into tbl_1
+2025-11-13 01:45:10,814 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part9.csv into tbl_1
+2025-11-13 01:45:20,538 INFO: Loaded tbl_1: True
+2025-11-13 01:45:20,968 INFO: Final DB size: 1.22GB across 1466803 rows
+2025-11-13 01:45:20,968 INFO: Attempt 1 final size: 1.22 GB (target 1.00 GB) diff 21.73%
+2025-11-13 01:45:20,969 INFO: Updated cache measured_avg_row = 891.087613 bytes
+2025-11-13 01:45:20,969 INFO: Adjusting scenario target from 1.00 GB to 0.82 GB for next attempt (scale 0.822)
+2025-11-13 01:45:20,969 INFO: --- Attempt 2 / 5 ---
+2025-11-13 01:45:21,316 INFO: Dropping table tbl_1
+2025-11-13 01:45:21,526 INFO: Dropping table tbl_2
+2025-11-13 01:45:21,638 INFO: Dropping table tbl_3
+2025-11-13 01:45:21,715 INFO: Dropping table tbl_4
+2025-11-13 01:45:21,791 INFO: Dropping table tbl_5
+2025-11-13 01:45:21,895 INFO: Scenario test: target 841.22MB across 5 tables
+2025-11-13 01:45:21,896 INFO: Starting CSV generation with 4 workers
+2025-11-13 01:45:21,901 INFO: Generating for tbl_1 with target rows 253399
+2025-11-13 01:45:21,901 INFO: Generating for tbl_2 with target rows 256467
+2025-11-13 01:45:21,901 INFO: Generating for tbl_3 with target rows 189207
+2025-11-13 01:45:21,901 INFO: Generating for tbl_4 with target rows 251734
+2025-11-13 01:45:52,892 INFO: Generating for tbl_5 with target rows 255654
+2025-11-13 01:46:58,108 INFO: CSV generation completed for 5 tables
+2025-11-13 01:46:58,108 INFO: Starting LOAD DATA with 4 workers
+2025-11-13 01:46:58,515 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part1.csv into tbl_5
+2025-11-13 01:46:58,523 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part1.csv into tbl_3
+2025-11-13 01:46:58,562 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part1.csv into tbl_2
+2025-11-13 01:46:58,569 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part1.csv into tbl_1
+2025-11-13 01:47:05,477 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part2.csv into tbl_5
+2025-11-13 01:47:10,090 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part2.csv into tbl_2
+2025-11-13 01:47:14,142 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part2.csv into tbl_3
+2025-11-13 01:47:17,526 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part2.csv into tbl_1
+2025-11-13 01:47:17,579 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part3.csv into tbl_5
+2025-11-13 01:47:19,025 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part3.csv into tbl_2
+2025-11-13 01:47:23,948 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part4.csv into tbl_5
+2025-11-13 01:47:27,732 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part3.csv into tbl_3
+2025-11-13 01:47:30,064 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part4.csv into tbl_2
+2025-11-13 01:47:30,448 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part5.csv into tbl_5
+2025-11-13 01:47:33,681 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part3.csv into tbl_1
+2025-11-13 01:47:37,113 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part6.csv into tbl_5
+2025-11-13 01:47:37,933 INFO: Loaded tbl_5: True
+2025-11-13 01:47:38,384 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part1.csv into tbl_4
+2025-11-13 01:47:41,026 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part5.csv into tbl_2
+2025-11-13 01:47:44,451 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part4.csv into tbl_3
+2025-11-13 01:47:49,171 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part4.csv into tbl_1
+2025-11-13 01:47:50,915 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part6.csv into tbl_2
+2025-11-13 01:47:54,436 INFO: Loaded tbl_3: True
+2025-11-13 01:47:59,556 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part2.csv into tbl_4
+2025-11-13 01:47:59,572 INFO: Loaded tbl_2: True
+2025-11-13 01:48:02,685 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part5.csv into tbl_1
+2025-11-13 01:48:14,056 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part3.csv into tbl_4
+2025-11-13 01:48:17,146 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part6.csv into tbl_1
+2025-11-13 01:48:18,038 INFO: Loaded tbl_1: True
+2025-11-13 01:48:26,026 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part4.csv into tbl_4
+2025-11-13 01:48:37,332 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part5.csv into tbl_4
+2025-11-13 01:48:48,717 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part6.csv into tbl_4
+2025-11-13 01:48:49,386 INFO: Loaded tbl_4: True
+2025-11-13 01:48:49,784 INFO: Final DB size: 1.15GB across 1121529 rows
+2025-11-13 01:48:49,784 INFO: Attempt 2 final size: 1.15 GB (target 1.00 GB) diff 14.94%
+2025-11-13 01:48:49,785 INFO: Updated cache measured_avg_row = 1100.424125 bytes
+2025-11-13 01:48:49,785 INFO: Adjusting scenario target from 0.82 GB to 0.71 GB for next attempt (scale 0.870)
+2025-11-13 01:48:49,785 INFO: --- Attempt 3 / 5 ---
+2025-11-13 01:48:50,133 INFO: Dropping table tbl_1
+2025-11-13 01:48:50,350 INFO: Dropping table tbl_2
+2025-11-13 01:48:50,436 INFO: Dropping table tbl_3
+2025-11-13 01:48:50,518 INFO: Dropping table tbl_4
+2025-11-13 01:48:50,600 INFO: Dropping table tbl_5
+2025-11-13 01:48:50,703 INFO: Scenario test: target 731.87MB across 5 tables
+2025-11-13 01:48:50,703 INFO: Starting CSV generation with 4 workers
+2025-11-13 01:48:50,709 INFO: Generating for tbl_3 with target rows 110431
+2025-11-13 01:48:50,709 INFO: Generating for tbl_1 with target rows 113181
+2025-11-13 01:48:50,709 INFO: Generating for tbl_4 with target rows 157390
+2025-11-13 01:48:50,709 INFO: Generating for tbl_2 with target rows 124627
+2025-11-13 01:49:07,868 INFO: Generating for tbl_5 with target rows 146740
+2025-11-13 01:50:05,387 INFO: CSV generation completed for 5 tables
+2025-11-13 01:50:05,388 INFO: Starting LOAD DATA with 4 workers
+2025-11-13 01:50:05,927 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part1.csv into tbl_4
+2025-11-13 01:50:05,939 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part1.csv into tbl_1
+2025-11-13 01:50:05,956 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part1.csv into tbl_2
+2025-11-13 01:50:05,971 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part1.csv into tbl_3
+2025-11-13 01:50:07,984 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part2.csv into tbl_3
+2025-11-13 01:50:10,343 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part3.csv into tbl_3
+2025-11-13 01:50:10,894 INFO: Loaded tbl_3: True
+2025-11-13 01:50:11,327 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part1.csv into tbl_5
+2025-11-13 01:50:21,109 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part2.csv into tbl_2
+2025-11-13 01:50:24,182 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part2.csv into tbl_1
+2025-11-13 01:50:30,089 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part2.csv into tbl_4
+2025-11-13 01:50:34,592 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part3.csv into tbl_2
+2025-11-13 01:50:39,557 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part3.csv into tbl_1
+2025-11-13 01:50:44,482 INFO: Loaded tbl_2: True
+2025-11-13 01:50:47,890 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part3.csv into tbl_4
+2025-11-13 01:50:47,937 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part2.csv into tbl_5
+2025-11-13 01:50:47,952 INFO: Loaded tbl_1: True
+2025-11-13 01:51:00,927 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part4.csv into tbl_4
+2025-11-13 01:51:04,706 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part3.csv into tbl_5
+2025-11-13 01:51:04,727 INFO: Loaded tbl_4: True
+2025-11-13 01:51:15,287 INFO: Loaded tbl_5: True
+2025-11-13 01:51:15,672 INFO: Final DB size: 565.03MB across 1085257 rows
+2025-11-13 01:51:15,673 INFO: Attempt 3 final size: 0.55 GB (target 1.00 GB) diff 44.82%
+2025-11-13 01:51:15,673 INFO: Updated cache measured_avg_row = 545.933551 bytes
+2025-11-13 01:51:15,673 INFO: Adjusting scenario target from 0.71 GB to 1.30 GB for next attempt (scale 1.812)
+2025-11-13 01:51:15,673 INFO: --- Attempt 4 / 5 ---
+2025-11-13 01:51:15,914 INFO: Dropping table tbl_1
+2025-11-13 01:51:16,134 INFO: Dropping table tbl_2
+2025-11-13 01:51:16,312 INFO: Dropping table tbl_3
+2025-11-13 01:51:16,433 INFO: Dropping table tbl_4
+2025-11-13 01:51:16,521 INFO: Dropping table tbl_5
+2025-11-13 01:51:16,627 INFO: Scenario test: target 1.30GB across 5 tables
+2025-11-13 01:51:16,627 INFO: Starting CSV generation with 4 workers
+2025-11-13 01:51:16,632 INFO: Generating for tbl_1 with target rows 194627
+2025-11-13 01:51:16,632 INFO: Generating for tbl_2 with target rows 240606
+2025-11-13 01:51:16,632 INFO: Generating for tbl_4 with target rows 222835
+2025-11-13 01:51:16,632 INFO: Generating for tbl_3 with target rows 208866
+2025-11-13 01:51:40,646 INFO: Generating for tbl_5 with target rows 175166
+2025-11-13 01:52:13,166 INFO: CSV generation completed for 5 tables
+2025-11-13 01:52:13,166 INFO: Starting LOAD DATA with 4 workers
+2025-11-13 01:52:13,636 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part1.csv into tbl_1
+2025-11-13 01:52:13,651 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part1.csv into tbl_4
+2025-11-13 01:52:13,671 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part1.csv into tbl_3
+2025-11-13 01:52:13,686 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part1.csv into tbl_5
+2025-11-13 01:52:15,662 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part2.csv into tbl_3
+2025-11-13 01:52:15,683 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part2.csv into tbl_4
+2025-11-13 01:52:17,454 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part3.csv into tbl_3
+2025-11-13 01:52:17,504 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part3.csv into tbl_4
+2025-11-13 01:52:20,454 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part4.csv into tbl_3
+2025-11-13 01:52:20,512 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part4.csv into tbl_4
+2025-11-13 01:52:22,142 INFO: Loading file /space/azure_mysql_csvs/test/tbl_3_part5.csv into tbl_3
+2025-11-13 01:52:22,248 INFO: Loading file /space/azure_mysql_csvs/test/tbl_4_part5.csv into tbl_4
+2025-11-13 01:52:23,732 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part2.csv into tbl_5
+2025-11-13 01:52:25,236 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part2.csv into tbl_1
+2025-11-13 01:52:25,252 INFO: Loaded tbl_4: True
+2025-11-13 01:52:25,308 INFO: Loaded tbl_3: True
+2025-11-13 01:52:25,829 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part1.csv into tbl_2
+2025-11-13 01:52:28,924 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part3.csv into tbl_5
+2025-11-13 01:52:31,666 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part3.csv into tbl_1
+2025-11-13 01:52:35,110 INFO: Loading file /space/azure_mysql_csvs/test/tbl_5_part4.csv into tbl_5
+2025-11-13 01:52:39,952 INFO: Loaded tbl_5: True
+2025-11-13 01:52:39,992 INFO: Loading file /space/azure_mysql_csvs/test/tbl_1_part4.csv into tbl_1
+2025-11-13 01:52:39,993 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part2.csv into tbl_2
+2025-11-13 01:52:45,023 INFO: Loaded tbl_1: True
+2025-11-13 01:52:48,362 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part3.csv into tbl_2
+2025-11-13 01:52:54,761 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part4.csv into tbl_2
+2025-11-13 01:53:01,251 INFO: Loading file /space/azure_mysql_csvs/test/tbl_2_part5.csv into tbl_2
+2025-11-13 01:53:06,472 INFO: Loaded tbl_2: True
+2025-11-13 01:53:06,752 INFO: Final DB size: 428.88MB across 584689 rows
+2025-11-13 01:53:06,753 INFO: Attempt 4 final size: 0.42 GB (target 1.00 GB) diff 58.12%
+2025-11-13 01:53:06,753 INFO: Updated cache measured_avg_row = 769.140572 bytes
+2025-11-13 01:53:06,753 INFO: Adjusting scenario target from 1.30 GB to 3.09 GB for next attempt (scale 2.388)
+2025-11-13 01:53:06,753 INFO: --- Attempt 5 / 5 ---
+2025-11-13 01:53:06,998 INFO: Dropping table tbl_1
+2025-11-13 01:53:07,101 INFO: Dropping table tbl_2
+2025-11-13 01:53:07,183 INFO: Dropping table tbl_3
+2025-11-13 01:53:07,265 INFO: Dropping table tbl_4
+2025-11-13 01:53:07,357 INFO: Dropping table tbl_5
+2025-11-13 01:53:07,467 INFO: Scenario test: target 3.09GB across 5 tables
+2025-11-13 01:53:07,467 INFO: Starting CSV generation with 4 workers
+2025-11-13 01:53:07,472 INFO: Generating for tbl_1 with target rows 563937
+2025-11-13 01:53:07,472 INFO: Generating for tbl_3 with target rows 609800
+2025-11-13 01:53:07,472 INFO: Generating for tbl_2 with target rows 456412
+2025-11-13 01:53:07,472 INFO: Generating for tbl_4 with target rows 439760
+2025-11-13 01:53:16,589 INFO: Generating for tbl_5 with target rows 576857
+2025-11-13 01:54:44,876 INFO: Total elapsed time: 876 seconds
