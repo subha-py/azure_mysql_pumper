@@ -1,0 +1,26 @@
+# Python virtual environment
+venv/
+env/
+ENV/
+
+# Log files
+*.log
+logs/
+
+# Certificate files
+*.pem
+
+# Cache and temporary files
+*.pyc
+__pycache__/
+*.tmp
+row_size_estimate.json
+
+# CSV output directory
+/space/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
