@@ -37,7 +37,7 @@ SCENARIOS = {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": 25,
+        "parallelism": 10,
     },
 }
 
@@ -73,7 +73,7 @@ def setup_logging(scenario):
 # -------------------------------------------------------------------
 def get_mysql_connection(database=None):
     return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST", "sbera-500gb-500tables.mysql.database.azure.com"),
+        host=os.getenv("MYSQL_HOST", "sbera-500gb-1500tables.mysql.database.azure.com"),
         user=os.getenv("MYSQL_USER", "adminuser"),
         password=os.getenv("MYSQL_PASSWORD", ""),
         database=database,
@@ -154,9 +154,9 @@ def load_csv_to_mysql(table_name, csv_files, db_name="synthetic_db"):
     conn = get_mysql_connection(db_name)
     cur = conn.cursor()
 
-    cur.execute(f"DROP TABLE IF EXISTS {table_name}")
+    # cur.execute(f"DROP TABLE IF EXISTS {table_name}")
     cur.execute(f"""
-        CREATE TABLE {table_name} (
+        CREATE TABLE IF NOT EXISTS {table_name} (
             id INT,
             name VARCHAR(255),
             value DOUBLE,
@@ -223,8 +223,29 @@ def run_scenario(scenario_name):
     logging.info(f"Target {target_gb}GB | {tables} tables | parallelism {parallelism}")
     logging.info(f"Using avg_row_bytes ≈ {avg_row_bytes:.2f}, rows/table ≈ {rows_per_table:,}")
 
+    def table_exists(table_name, db_name="synthetic_db"):
+        conn = get_mysql_connection(db_name)
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT COUNT(*)
+            FROM information_schema.tables
+            WHERE table_schema = %s AND table_name = %s
+        """, (db_name, table_name))
+        exists = cur.fetchone()[0] > 0
+        cur.close()
+        conn.close()
+        return exists
+
+
     def process_table(i):
         table_name = f"tbl_{i}"
+
+        # ✨ NEW: Skip processing if table exists
+        if table_exists(table_name):
+            logging.info(f"⏭️  Table {table_name} already exists — skipping row generation.")
+            return 0   # No rows generated
+
+        # Normal path if table does NOT exist
         rows = random.randint(*row_range)
         csv_files, _ = generate_csv(table_name, rows, scenario_name)
         load_csv_to_mysql(table_name, csv_files)
