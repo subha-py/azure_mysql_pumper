@@ -11,8 +11,6 @@ import shutil
 import mysql.connector
 import concurrent.futures
 from pathlib import Path
-from io import StringIO
-import multiprocessing
 
 # -------------------------------------------------------------------
 # CONFIGURATION
@@ -34,19 +32,19 @@ SCENARIOS = {
         "description": "Minimal load sanity test",
         "target_size_gb": 1,
         "tables": 5,
-        "parallelism": min(5, multiprocessing.cpu_count()),
+        "parallelism": 5,
     },
     "baseline": {
         "description": "Baseline ingestion performance",
         "target_size_gb": 100,
         "tables": 100,
-        "parallelism": min(multiprocessing.cpu_count() * 2, 20),
+        "parallelism": 10,
     },
     "medium": {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": min(multiprocessing.cpu_count() * 3, 40),
+        "parallelism": 25,
     },
 }
 
@@ -131,35 +129,23 @@ def generate_csv(table_name, rows, scenario):
     csv_path = out_dir / f"{table_name}.csv"
     headers = ["id", "name", "value", "timestamp"]
 
-    # Pre-generate timestamp once
-    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-    
-    # Batch size for writing
-    batch_size = 10000
     total_bytes = 0
 
-    with open(csv_path, "w", newline="", buffering=8192*16) as f:
+    with open(csv_path, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(headers)
 
-        # Generate in batches for better performance
-        for batch_start in range(0, rows, batch_size):
-            batch_end = min(batch_start + batch_size, rows)
-            batch = []
-            
-            for i in range(batch_start, batch_end):
-                row = [
-                    i,
-                    f"name_{random.randint(1, 999999)}",
-                    round(random.random() * 1000, 2),
-                    timestamp
-                ]
-                batch.append(row)
-                total_bytes += 50  # Approximate row size
-            
-            writer.writerows(batch)
+        for i in range(rows):
+            row = [
+                i,
+                f"name_{random.randint(1, 999999)}",
+                random.random() * 1000,
+                time.strftime("%Y-%m-%d %H:%M:%S")
+            ]
+            writer.writerow(row)
+            total_bytes += sum(len(str(x)) for x in row) + 10
 
-    logging.info(f"Generated {rows:,} rows → {csv_path}")
+    logging.info(f"Generated {rows} rows → {csv_path}")
 
     return [csv_path], total_bytes
 
