@@ -34,19 +34,22 @@ SCENARIOS = {
         "description": "Minimal load sanity test",
         "target_size_gb": 1,
         "tables": 5,
-        "parallelism": min(5, multiprocessing.cpu_count()),
+        "parallelism": min(10, multiprocessing.cpu_count() // 2),
+        "csv_workers": multiprocessing.cpu_count() // 2,
     },
     "baseline": {
         "description": "Baseline ingestion performance",
         "target_size_gb": 100,
         "tables": 100,
-        "parallelism": min(multiprocessing.cpu_count() * 2, 20),
+        "parallelism": multiprocessing.cpu_count() // 2,
+        "csv_workers": multiprocessing.cpu_count() // 2,
     },
     "medium": {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": min(multiprocessing.cpu_count() * 3, 40),
+        "parallelism": multiprocessing.cpu_count() // 2,
+        "csv_workers": multiprocessing.cpu_count() // 2,
     },
 }
 
@@ -123,6 +126,12 @@ def save_row_size_estimates(est):
 # -------------------------------------------------------------------
 # CSV GENERATION
 # -------------------------------------------------------------------
+def generate_csv_wrapper(args):
+    """Wrapper for parallel CSV generation - must be at module level for pickling"""
+    table_name, rows, scenario = args
+    return generate_csv(table_name, rows, scenario)
+
+
 def generate_csv(table_name, rows, scenario):
     instance_name = get_instance_name()
     out_dir = Path(CSV_BASE_DIR) / instance_name / scenario
@@ -159,8 +168,7 @@ def generate_csv(table_name, rows, scenario):
             
             writer.writerows(batch)
 
-    logging.info(f"Generated {rows:,} rows → {csv_path}")
-
+    # Return success without logging (ProcessPoolExecutor issue)
     return [csv_path], total_bytes
 
 # -------------------------------------------------------------------
@@ -224,6 +232,7 @@ def run_scenario(scenario_name):
     target_gb = cfg["target_size_gb"]
     tables = cfg["tables"]
     parallelism = cfg["parallelism"]
+    csv_workers = cfg.get("csv_workers", multiprocessing.cpu_count())
 
     log_path = setup_logging(scenario_name)
     ensure_database_exists("synthetic_db")
@@ -236,7 +245,7 @@ def run_scenario(scenario_name):
     row_range = (rows_per_table, int(rows_per_table * 1.1))
 
     logging.info(f"Starting scenario '{scenario_name}' ({cfg['description']})")
-    logging.info(f"Target {target_gb}GB | {tables} tables | parallelism {parallelism}")
+    logging.info(f"Target {target_gb}GB | {tables} tables | parallelism {parallelism} | CSV workers {csv_workers}")
     logging.info(f"Using avg_row_bytes ≈ {avg_row_bytes:.2f}, rows/table ≈ {rows_per_table:,}")
 
     def table_exists(table_name, db_name="synthetic_db"):
@@ -256,21 +265,50 @@ def run_scenario(scenario_name):
     def process_table(i):
         table_name = f"tbl_{i}"
 
-        # ✨ NEW: Skip processing if table exists
+        # ✨ Skip processing if table exists
         if table_exists(table_name):
             logging.info(f"⏭️  Table {table_name} already exists — skipping row generation.")
             return 0   # No rows generated
 
         # Normal path if table does NOT exist
         rows = random.randint(*row_range)
-        csv_files, _ = generate_csv(table_name, rows, scenario_name)
-        load_csv_to_mysql(table_name, csv_files)
-        return rows
+        return (table_name, rows)
 
+    # Step 1: Generate all CSV files in parallel using all CPU cores
+    logging.info(f"🚀 Generating CSVs using {csv_workers} workers...")
+    tables_to_process = []
+    
+    for i in range(tables):
+        table_name = f"tbl_{i}"
+        if not table_exists(table_name):
+            rows = random.randint(*row_range)
+            tables_to_process.append((table_name, rows, scenario_name))
+    
+    csv_results = {}
+    table_row_counts = {}
+    with concurrent.futures.ProcessPoolExecutor(max_workers=csv_workers) as csv_ex:
+        csv_futures = {csv_ex.submit(generate_csv_wrapper, args): args for args in tables_to_process}
+        for future in concurrent.futures.as_completed(csv_futures):
+            table_name, rows, scenario = csv_futures[future]
+            csv_files, total_bytes = future.result()
+            csv_results[table_name] = csv_files
+            table_row_counts[table_name] = rows
+            logging.info(f"✓ Generated {rows:,} rows for {table_name}")
+
+    logging.info(f"✅ CSV generation complete: {len(csv_results)} files ready")
+
+    # Step 2: Load CSVs to MySQL in parallel
+    logging.info(f"📥 Loading {len(csv_results)} tables to MySQL using {parallelism} workers...")
+    
+    def load_table(table_name):
+        csv_files = csv_results[table_name]
+        load_csv_to_mysql(table_name, csv_files)
+        return table_row_counts[table_name]
+    
     total_rows = 0
-    with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as ex:
-        futures = [ex.submit(process_table, i) for i in range(tables)]
-        for f in concurrent.futures.as_completed(futures):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as load_ex:
+        load_futures = [load_ex.submit(load_table, tname) for tname in csv_results.keys()]
+        for f in concurrent.futures.as_completed(load_futures):
             total_rows += f.result()
 
     size_gb = get_mysql_db_size_gb()
