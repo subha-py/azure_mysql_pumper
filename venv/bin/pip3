@@ -1,4 +1,4 @@
-#!/home/cohesity/PycharmProjects/azure_mysql_pumper/venv/bin/python3
+#!/home/ubuntu/PycharmProjects/azure_mysql_pumper/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -20,6 +20,12 @@ LOG_DIR = "logs"
 ROW_SIZE_CACHE = "row_size_estimate.json"
 MULTIPART_SIZE_MB = 100
 
+def get_instance_name():
+    """Extract instance name from MYSQL_HOST environment variable."""
+    host = os.getenv("MYSQL_HOST", "aws-rds-mysql-1.crtevtvwnjg4.us-west-1.rds.amazonaws.com")
+    # Extract instance name (first part before first dot)
+    return host.split('.')[0]
+
 SCENARIOS = {
     "small_test": {
         "description": "Minimal load sanity test",
@@ -47,8 +53,9 @@ DEFAULT_SCENARIO = "small_test"
 # LOGGING SETUP
 # -------------------------------------------------------------------
 def setup_logging(scenario):
+    instance_name = get_instance_name()
     os.makedirs(LOG_DIR, exist_ok=True)
-    log_path = os.path.join(LOG_DIR, f"{scenario}.log")
+    log_path = os.path.join(LOG_DIR, f"{instance_name}_{scenario}.log")
     if os.path.exists(log_path):
         os.remove(log_path)
     logger = logging.getLogger()
@@ -73,8 +80,8 @@ def setup_logging(scenario):
 # -------------------------------------------------------------------
 def get_mysql_connection(database=None):
     return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST", "sbera-500gb-1500tables.mysql.database.azure.com"),
-        user=os.getenv("MYSQL_USER", "adminuser"),
+        host=os.getenv("MYSQL_HOST", "aws-rds-mysql-1.crtevtvwnjg4.us-west-1.rds.amazonaws.com"),
+        user=os.getenv("MYSQL_USER", "admin"),
         password=os.getenv("MYSQL_PASSWORD", ""),
         database=database,
         allow_local_infile=True
@@ -114,7 +121,8 @@ def save_row_size_estimates(est):
 # CSV GENERATION
 # -------------------------------------------------------------------
 def generate_csv(table_name, rows, scenario):
-    out_dir = Path(CSV_BASE_DIR) / scenario
+    instance_name = get_instance_name()
+    out_dir = Path(CSV_BASE_DIR) / instance_name / scenario
     out_dir.mkdir(parents=True, exist_ok=True)
 
     csv_path = out_dir / f"{table_name}.csv"

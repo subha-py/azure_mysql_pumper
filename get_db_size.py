@@ -8,8 +8,8 @@ import logging
 # -------------------------------
 def get_mysql_connection(database=None):
     return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST", "sbera-500gb-1500tables.mysql.database.azure.com"),
-        user=os.getenv("MYSQL_USER", "adminuser"),
+        host=os.getenv("MYSQL_HOST", "aws-rds-mysql-1.crtevtvwnjg4.us-west-1.rds.amazonaws.com"),
+        user=os.getenv("MYSQL_USER", "admin"),
         password=os.getenv("MYSQL_PASSWORD", ""),
         database=database,
         allow_local_infile=True
