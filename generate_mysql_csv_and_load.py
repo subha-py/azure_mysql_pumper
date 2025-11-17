@@ -37,7 +37,7 @@ SCENARIOS = {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": 10,
+        "parallelism": 25,
     },
 }
 
@@ -117,35 +117,28 @@ def generate_csv(table_name, rows, scenario):
     out_dir = Path(CSV_BASE_DIR) / scenario
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    total_bytes = 0
-    csv_files = []
-    part = 0
+    csv_path = out_dir / f"{table_name}.csv"
     headers = ["id", "name", "value", "timestamp"]
 
-    rows_per_chunk = max(1, int((MULTIPART_SIZE_MB * 1024 * 1024) / 100))  # estimate
+    total_bytes = 0
 
-    while rows > 0:
-        part_rows = min(rows, rows_per_chunk)
-        part_path = out_dir / f"{table_name}_part{part}.csv"
-        csv_files.append(part_path)
-        with open(part_path, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(headers)
-            for i in range(part_rows):
-                row = [
-                    i,
-                    f"name_{random.randint(1, 999999)}",
-                    random.random() * 1000,
-                    time.strftime("%Y-%m-%d %H:%M:%S")
-                ]
-                writer.writerow(row)
-                total_bytes += sum(len(str(x)) for x in row) + 10
-        logging.info(f"Generated {part_rows} rows → {part_path}")
-        rows -= part_rows
-        part += 1
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(headers)
 
-    return csv_files, total_bytes
+        for i in range(rows):
+            row = [
+                i,
+                f"name_{random.randint(1, 999999)}",
+                random.random() * 1000,
+                time.strftime("%Y-%m-%d %H:%M:%S")
+            ]
+            writer.writerow(row)
+            total_bytes += sum(len(str(x)) for x in row) + 10
 
+    logging.info(f"Generated {rows} rows → {csv_path}")
+
+    return [csv_path], total_bytes
 
 # -------------------------------------------------------------------
 # LOAD TO MYSQL
