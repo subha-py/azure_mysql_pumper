@@ -8,3 +8,9 @@
 17:49:27 [INFO]: Starting scenario 'baseline' (Baseline ingestion performance)
 17:49:27 [INFO]: Target 100GB | 100 tables | parallelism 10
 17:49:27 [INFO]: Using avg_row_bytes ≈ 57.00, rows/table ≈ 18,837,575
+09:50:33 [INFO]: Logging → logs/aws-rds-mysql-1_medium.log
+09:50:33 [INFO]: Ensured database exists: synthetic_500gb_db
+09:50:33 [INFO]: Starting scenario 'medium' (Medium-scale ingestion with high table count)
+09:50:33 [INFO]: Database: synthetic_500gb_db | Target 500GB | 1500 tables | parallelism 72 | CSV workers 72
+09:50:33 [INFO]: Using avg_row_bytes ≈ 60.00, rows/table ≈ 5,965,232
+09:50:33 [INFO]: 🚀 Generating and loading 1500 tables in pipeline mode using 72 workers...

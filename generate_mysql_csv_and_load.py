@@ -19,8 +19,8 @@ import multiprocessing
 # -------------------------------------------------------------------
 CSV_BASE_DIR = "/space/azure_mysql_csvs"
 LOG_DIR = "logs"
-ROW_SIZE_CACHE = "row_size_estimate.json"
 MULTIPART_SIZE_MB = 100
+DEFAULT_ROW_SIZE_BYTES = 60
 HOST = os.getenv("MYSQL_HOST", "sbera-aurora-mysql.cluster-crtevtvwnjg4.us-west-1.rds.amazonaws.com")
 
 def get_instance_name():
@@ -34,22 +34,25 @@ SCENARIOS = {
         "description": "Minimal load sanity test",
         "target_size_gb": 1,
         "tables": 5,
-        "parallelism": min(10, multiprocessing.cpu_count() // 2),
-        "csv_workers": multiprocessing.cpu_count() // 2,
+        "parallelism": min(10, multiprocessing.cpu_count()),
+        "csv_workers": multiprocessing.cpu_count(),
+        "database": "synthetic_small_db",
     },
     "baseline": {
         "description": "Baseline ingestion performance",
         "target_size_gb": 100,
         "tables": 100,
-        "parallelism": multiprocessing.cpu_count() // 2,
-        "csv_workers": multiprocessing.cpu_count() // 2,
+        "parallelism": multiprocessing.cpu_count(),
+        "csv_workers": multiprocessing.cpu_count(),
+        "database": "synthetic_100gb_db",
     },
     "medium": {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": multiprocessing.cpu_count() // 2,
-        "csv_workers": multiprocessing.cpu_count() // 2,
+        "parallelism": multiprocessing.cpu_count(),
+        "csv_workers": multiprocessing.cpu_count(),
+        "database": "synthetic_500gb_db",
     },
 }
 
@@ -101,26 +104,6 @@ def ensure_database_exists(db_name="synthetic_db"):
     cur.close()
     conn.close()
     logging.info(f"Ensured database exists: {db_name}")
-
-
-# -------------------------------------------------------------------
-# ROW SIZE ESTIMATE CACHE
-# -------------------------------------------------------------------
-def load_row_size_estimates():
-    if os.path.exists(ROW_SIZE_CACHE):
-        with open(ROW_SIZE_CACHE) as f:
-            return json.load(f)
-    return {}
-
-
-def save_row_size_estimates(est):
-    def convert(o):
-        if isinstance(o, decimal.Decimal):
-            return float(o)
-        return o
-    with open(ROW_SIZE_CACHE, "w") as f:
-        json.dump(est, f, indent=2, default=convert)
-    logging.info("💡 Updated row size estimate cache saved.")
 
 
 # -------------------------------------------------------------------
@@ -226,36 +209,55 @@ def get_mysql_db_size_gb(db_name="synthetic_db"):
 # -------------------------------------------------------------------
 # MAIN INGESTION LOGIC
 # -------------------------------------------------------------------
-def run_scenario(scenario_name):
+def run_scenario(scenario_name, load_only=False):
     cfg = SCENARIOS.get(scenario_name, SCENARIOS[DEFAULT_SCENARIO])
 
     target_gb = cfg["target_size_gb"]
     tables = cfg["tables"]
     parallelism = cfg["parallelism"]
     csv_workers = cfg.get("csv_workers", multiprocessing.cpu_count())
+    db_name = cfg.get("database", "synthetic_db")
 
     log_path = setup_logging(scenario_name)
-    ensure_database_exists("synthetic_db")
+    ensure_database_exists(db_name)
 
-    estimates = load_row_size_estimates()
-    avg_row_bytes = estimates.get(scenario_name, 100.0)
+    # For small_test, clean up existing tables first
+    if scenario_name == "small_test":
+        conn = get_mysql_connection(db_name)
+        cur = conn.cursor()
+        cur.execute("SET FOREIGN_KEY_CHECKS = 0")
+        cur.execute("SHOW TABLES")
+        tables_to_drop = [row[0] for row in cur.fetchall()]
+        if tables_to_drop:
+            logging.info(f"🧹 Cleaning up {len(tables_to_drop)} existing tables in {db_name}...")
+            for table in tables_to_drop:
+                cur.execute(f"DROP TABLE IF EXISTS {table}")
+            conn.commit()
+            logging.info(f"✓ Dropped {len(tables_to_drop)} tables")
+        cur.execute("SET FOREIGN_KEY_CHECKS = 1")
+        cur.close()
+        conn.close()
+
+    avg_row_bytes = DEFAULT_ROW_SIZE_BYTES
 
     total_target_bytes = target_gb * 1024 ** 3
     rows_per_table = int(total_target_bytes / (avg_row_bytes * tables))
     row_range = (rows_per_table, int(rows_per_table * 1.1))
 
     logging.info(f"Starting scenario '{scenario_name}' ({cfg['description']})")
-    logging.info(f"Target {target_gb}GB | {tables} tables | parallelism {parallelism} | CSV workers {csv_workers}")
+    logging.info(f"Database: {db_name} | Target {target_gb}GB | {tables} tables | parallelism {parallelism} | CSV workers {csv_workers}")
     logging.info(f"Using avg_row_bytes ≈ {avg_row_bytes:.2f}, rows/table ≈ {rows_per_table:,}")
 
-    def table_exists(table_name, db_name="synthetic_db"):
-        conn = get_mysql_connection(db_name)
+    def table_exists(table_name, check_db_name=None):
+        if check_db_name is None:
+            check_db_name = db_name
+        conn = get_mysql_connection(check_db_name)
         cur = conn.cursor()
         cur.execute("""
             SELECT COUNT(*)
             FROM information_schema.tables
             WHERE table_schema = %s AND table_name = %s
-        """, (db_name, table_name))
+        """, (check_db_name, table_name))
         exists = cur.fetchone()[0] > 0
         cur.close()
         conn.close()
@@ -274,53 +276,81 @@ def run_scenario(scenario_name):
         rows = random.randint(*row_range)
         return (table_name, rows)
 
-    # Step 1: Generate all CSV files in parallel using all CPU cores
-    logging.info(f"🚀 Generating CSVs using {csv_workers} workers...")
-    tables_to_process = []
-    
-    for i in range(tables):
-        table_name = f"tbl_{i}"
-        if not table_exists(table_name):
+    # Step 1: Generate CSV and load to MySQL in pipeline mode
+    if load_only:
+        logging.info(f"⏭️  Skipping CSV generation (--load-only mode)")
+        # Discover existing CSV files
+        instance_name = get_instance_name()
+        csv_dir = Path(CSV_BASE_DIR) / instance_name / scenario_name
+        
+        if not csv_dir.exists():
+            logging.error(f"❌ CSV directory not found: {csv_dir}")
+            return None, 0
+        
+        csv_results = {}
+        table_row_counts = {}
+        
+        for csv_file in csv_dir.glob("tbl_*.csv"):
+            table_name = csv_file.stem
+            csv_results[table_name] = [csv_file]
+            # Count rows in CSV (subtract 1 for header)
+            with open(csv_file) as f:
+                row_count = sum(1 for _ in f) - 1
+            table_row_counts[table_name] = row_count
+            logging.info(f"✓ Found CSV for {table_name} with ~{row_count:,} rows")
+        
+        logging.info(f"✅ Found {len(csv_results)} CSV files ready to load")
+        
+        # Load existing CSVs
+        logging.info(f"📥 Loading {len(csv_results)} tables to MySQL using {parallelism} workers...")
+        
+        def load_table(table_name):
+            csv_files = csv_results[table_name]
+            load_csv_to_mysql(table_name, csv_files, db_name=db_name)
+            return table_row_counts[table_name]
+        
+        total_rows = 0
+        with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as load_ex:
+            load_futures = [load_ex.submit(load_table, tname) for tname in csv_results.keys()]
+            for f in concurrent.futures.as_completed(load_futures):
+                total_rows += f.result()
+    else:
+        # Pipeline mode: Generate CSV -> Load -> Delete immediately
+        logging.info(f"🚀 Generating and loading {tables} tables in pipeline mode using {parallelism} workers...")
+        
+        def process_table_pipeline(i):
+            """Generate CSV, load to MySQL, and delete CSV immediately"""
+            table_name = f"tbl_{i}"
+            
+            # Skip if table already exists
+            if table_exists(table_name):
+                logging.info(f"⏭️  Table {table_name} already exists — skipping.")
+                return 0
+            
+            # Generate CSV
             rows = random.randint(*row_range)
-            tables_to_process.append((table_name, rows, scenario_name))
-    
-    csv_results = {}
-    table_row_counts = {}
-    with concurrent.futures.ProcessPoolExecutor(max_workers=csv_workers) as csv_ex:
-        csv_futures = {csv_ex.submit(generate_csv_wrapper, args): args for args in tables_to_process}
-        for future in concurrent.futures.as_completed(csv_futures):
-            table_name, rows, scenario = csv_futures[future]
-            csv_files, total_bytes = future.result()
-            csv_results[table_name] = csv_files
-            table_row_counts[table_name] = rows
-            logging.info(f"✓ Generated {rows:,} rows for {table_name}")
+            csv_files, _ = generate_csv(table_name, rows, scenario_name)
+            
+            # Load to MySQL
+            load_csv_to_mysql(table_name, csv_files, db_name=db_name)
+            
+            logging.info(f"✓ Completed {table_name} with {rows:,} rows")
+            return rows
+        
+        total_rows = 0
+        with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as ex:
+            futures = [ex.submit(process_table_pipeline, i) for i in range(tables)]
+            for f in concurrent.futures.as_completed(futures):
+                total_rows += f.result()
 
-    logging.info(f"✅ CSV generation complete: {len(csv_results)} files ready")
-
-    # Step 2: Load CSVs to MySQL in parallel
-    logging.info(f"📥 Loading {len(csv_results)} tables to MySQL using {parallelism} workers...")
-    
-    def load_table(table_name):
-        csv_files = csv_results[table_name]
-        load_csv_to_mysql(table_name, csv_files)
-        return table_row_counts[table_name]
-    
-    total_rows = 0
-    with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as load_ex:
-        load_futures = [load_ex.submit(load_table, tname) for tname in csv_results.keys()]
-        for f in concurrent.futures.as_completed(load_futures):
-            total_rows += f.result()
-
-    size_gb = get_mysql_db_size_gb()
+    size_gb = get_mysql_db_size_gb(db_name=db_name)
     logging.info(f"✅ Final DB size {size_gb:.2f}GB with {total_rows:,} rows")
 
-    measured_row_bytes = (size_gb * 1024 ** 3) / total_rows
-    logging.info(f"📏 Measured average row size: {measured_row_bytes:.2f} bytes")
+    if total_rows > 0:
+        measured_row_bytes = (size_gb * 1024 ** 3) / total_rows
+        logging.info(f"📏 Measured average row size: {measured_row_bytes:.2f} bytes")
 
-    estimates[scenario_name] = measured_row_bytes
-    save_row_size_estimates(estimates)
-
-    logging.info("🎯 Ingestion complete — cache updated.")
+    logging.info("🎯 Ingestion complete.")
     return size_gb, total_rows
 
 
@@ -331,5 +361,6 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--scenario", default=DEFAULT_SCENARIO, help="Scenario name (small_test, baseline, medium)")
+    parser.add_argument("--load-only", action="store_true", help="Skip CSV generation and only load existing CSVs to MySQL")
     args = parser.parse_args()
-    run_scenario(args.scenario)
+    run_scenario(args.scenario, load_only=args.load_only)
