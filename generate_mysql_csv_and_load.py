@@ -98,12 +98,13 @@ def get_mysql_connection(database=None):
 
 
 def ensure_database_exists(db_name="synthetic_db"):
+    logging.info(f"🔍 Checking if database '{db_name}' exists...")
     conn = get_mysql_connection()
     cur = conn.cursor()
     cur.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
     cur.close()
     conn.close()
-    logging.info(f"Ensured database exists: {db_name}")
+    logging.info(f"✓ Database '{db_name}' is ready")
 
 
 # -------------------------------------------------------------------
@@ -116,6 +117,7 @@ def generate_csv_wrapper(args):
 
 
 def generate_csv(table_name, rows, scenario):
+    start_time = time.time()
     instance_name = get_instance_name()
     out_dir = Path(CSV_BASE_DIR) / instance_name / scenario
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -129,6 +131,9 @@ def generate_csv(table_name, rows, scenario):
     # Batch size for writing
     batch_size = 10000
     total_bytes = 0
+    
+    # Don't log from worker processes - return info instead
+    # logging.info(f"📝 Generating CSV for {table_name} with {rows:,} rows...")
 
     with open(csv_path, "w", newline="", buffering=8192*16) as f:
         writer = csv.writer(f)
@@ -151,42 +156,54 @@ def generate_csv(table_name, rows, scenario):
             
             writer.writerows(batch)
 
-    # Return success without logging (ProcessPoolExecutor issue)
-    return [csv_path], total_bytes
+    elapsed = time.time() - start_time
+    # Return timing info instead of logging from worker process
+    return [csv_path], total_bytes, rows, elapsed
 
 # -------------------------------------------------------------------
 # LOAD TO MYSQL
 # -------------------------------------------------------------------
 def load_csv_to_mysql(table_name, csv_files, db_name="synthetic_db"):
-    conn = get_mysql_connection(db_name)
-    cur = conn.cursor()
+    start_time = time.time()
+    logging.info(f"📤 Loading {table_name} to MySQL (database: {db_name})...")
+    
+    try:
+        conn = get_mysql_connection(db_name)
+        cur = conn.cursor()
 
-    # cur.execute(f"DROP TABLE IF EXISTS {table_name}")
-    cur.execute(f"""
-        CREATE TABLE IF NOT EXISTS {table_name} (
-            id INT,
-            name VARCHAR(255),
-            value DOUBLE,
-            timestamp DATETIME
-        )
-    """)
+        # cur.execute(f"DROP TABLE IF EXISTS {table_name}")
+        logging.info(f"  Creating table {table_name} if not exists...")
+        cur.execute(f"""
+            CREATE TABLE IF NOT EXISTS {table_name} (
+                id INT,
+                name VARCHAR(255),
+                value DOUBLE,
+                timestamp DATETIME
+            )
+        """)
 
-    for csv_path in csv_files:
-        load_sql = f"""
-            LOAD DATA LOCAL INFILE '{csv_path}'
-            INTO TABLE {table_name}
-            FIELDS TERMINATED BY ',' 
-            LINES TERMINATED BY '\n'
-            IGNORE 1 LINES
-            (id, name, value, timestamp)
-        """
-        cur.execute(load_sql)
-        conn.commit()
-        os.remove(csv_path)
-        logging.info(f"Loaded {table_name} from {csv_path} and removed CSV.")
+        for csv_path in csv_files:
+            logging.info(f"  Executing LOAD DATA LOCAL INFILE for {csv_path}...")
+            load_sql = f"""
+                LOAD DATA LOCAL INFILE '{csv_path}'
+                INTO TABLE {table_name}
+                FIELDS TERMINATED BY ',' 
+                LINES TERMINATED BY '\n'
+                IGNORE 1 LINES
+                (id, name, value, timestamp)
+            """
+            cur.execute(load_sql)
+            logging.info(f"  Committing transaction...")
+            conn.commit()
+            os.remove(csv_path)
+            elapsed = time.time() - start_time
+            logging.info(f"✓ Loaded {table_name} from {csv_path} in {elapsed:.2f}s and removed CSV.")
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
+    except Exception as e:
+        logging.error(f"❌ Error loading {table_name}: {e}")
+        raise
 
 
 # -------------------------------------------------------------------
@@ -321,21 +338,31 @@ def run_scenario(scenario_name, load_only=False):
         def process_table_pipeline(i):
             """Generate CSV, load to MySQL, and delete CSV immediately"""
             table_name = f"tbl_{i}"
+            pipeline_start = time.time()
             
-            # Skip if table already exists
-            if table_exists(table_name):
-                logging.info(f"⏭️  Table {table_name} already exists — skipping.")
-                return 0
-            
-            # Generate CSV
-            rows = random.randint(*row_range)
-            csv_files, _ = generate_csv(table_name, rows, scenario_name)
-            
-            # Load to MySQL
-            load_csv_to_mysql(table_name, csv_files, db_name=db_name)
-            
-            logging.info(f"✓ Completed {table_name} with {rows:,} rows")
-            return rows
+            try:
+                logging.info(f"🔄 Processing table {i+1}/{tables}: {table_name}")
+                
+                # Skip if table already exists
+                if table_exists(table_name):
+                    logging.info(f"⏭️  Table {table_name} already exists — skipping.")
+                    return 0
+                
+                # Generate CSV
+                rows = random.randint(*row_range)
+                logging.info(f"📝 Generating CSV for {table_name} with {rows:,} rows...")
+                csv_files, _, actual_rows, gen_time = generate_csv(table_name, rows, scenario_name)
+                logging.info(f"✓ Generated {table_name}.csv ({actual_rows:,} rows) in {gen_time:.2f}s")
+                
+                # Load to MySQL
+                load_csv_to_mysql(table_name, csv_files, db_name=db_name)
+                
+                elapsed = time.time() - pipeline_start
+                logging.info(f"✅ Completed {table_name} with {rows:,} rows in {elapsed:.2f}s (total pipeline)")
+                return rows
+            except Exception as e:
+                logging.error(f"❌ Error processing {table_name}: {e}")
+                raise
         
         total_rows = 0
         with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as ex:
@@ -343,6 +370,7 @@ def run_scenario(scenario_name, load_only=False):
             for f in concurrent.futures.as_completed(futures):
                 total_rows += f.result()
 
+    logging.info(f"📊 Calculating final database size...")
     size_gb = get_mysql_db_size_gb(db_name=db_name)
     logging.info(f"✅ Final DB size {size_gb:.2f}GB with {total_rows:,} rows")
 
