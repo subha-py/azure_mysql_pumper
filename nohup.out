@@ -14,3 +14,310 @@
 09:50:33 [INFO]: Database: synthetic_500gb_db | Target 500GB | 1500 tables | parallelism 72 | CSV workers 72
 09:50:33 [INFO]: Using avg_row_bytes ≈ 60.00, rows/table ≈ 5,965,232
 09:50:33 [INFO]: 🚀 Generating and loading 1500 tables in pipeline mode using 72 workers...
+02:05:42 [INFO]: Logging → logs/sbera-500gb-1500tables_baseline.log
+02:05:42 [INFO]: Ensured database exists: synthetic_100gb_db
+02:05:42 [INFO]: Starting scenario 'baseline' (Baseline ingestion performance)
+02:05:42 [INFO]: Database: synthetic_100gb_db | Target 100GB | 100 tables | parallelism 8 | CSV workers 8
+02:05:42 [INFO]: Using avg_row_bytes ≈ 60.00, rows/table ≈ 17,895,697
+02:05:42 [INFO]: 🚀 Generating and loading 100 tables in pipeline mode using 8 workers...
+02:22:19 [INFO]: Loaded tbl_6 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_6.csv and removed CSV.
+02:22:19 [INFO]: ✓ Completed tbl_6 with 17,938,227 rows
+02:22:53 [INFO]: Loaded tbl_3 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_3.csv and removed CSV.
+02:22:53 [INFO]: ✓ Completed tbl_3 with 18,061,452 rows
+02:23:07 [INFO]: Loaded tbl_7 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_7.csv and removed CSV.
+02:23:07 [INFO]: ✓ Completed tbl_7 with 18,030,805 rows
+02:23:41 [INFO]: Loaded tbl_5 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_5.csv and removed CSV.
+02:23:41 [INFO]: ✓ Completed tbl_5 with 18,466,417 rows
+02:23:52 [INFO]: Loaded tbl_0 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_0.csv and removed CSV.
+02:23:52 [INFO]: ✓ Completed tbl_0 with 19,158,419 rows
+02:24:06 [INFO]: Loaded tbl_4 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_4.csv and removed CSV.
+02:24:06 [INFO]: ✓ Completed tbl_4 with 19,094,829 rows
+02:24:12 [INFO]: Loaded tbl_1 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_1.csv and removed CSV.
+02:24:12 [INFO]: Loaded tbl_2 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_2.csv and removed CSV.
+02:24:12 [INFO]: ✓ Completed tbl_1 with 19,125,294 rows
+02:24:12 [INFO]: ✓ Completed tbl_2 with 19,573,223 rows
+02:35:29 [INFO]: Loaded tbl_8 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_8.csv and removed CSV.
+02:35:29 [INFO]: ✓ Completed tbl_8 with 18,594,747 rows
+02:36:28 [INFO]: Loaded tbl_10 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_10.csv and removed CSV.
+02:36:28 [INFO]: ✓ Completed tbl_10 with 18,342,057 rows
+02:36:57 [INFO]: Loaded tbl_9 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_9.csv and removed CSV.
+02:36:57 [INFO]: ✓ Completed tbl_9 with 18,849,556 rows
+02:39:21 [INFO]: Loaded tbl_12 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_12.csv and removed CSV.
+02:39:21 [INFO]: ✓ Completed tbl_12 with 17,973,813 rows
+02:39:21 [INFO]: Loaded tbl_11 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_11.csv and removed CSV.
+02:39:21 [INFO]: ✓ Completed tbl_11 with 19,441,416 rows
+02:40:16 [INFO]: Loaded tbl_15 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_15.csv and removed CSV.
+02:40:16 [INFO]: ✓ Completed tbl_15 with 18,647,787 rows
+02:40:24 [INFO]: Loaded tbl_14 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_14.csv and removed CSV.
+02:40:24 [INFO]: Loaded tbl_13 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_13.csv and removed CSV.
+02:40:24 [INFO]: ✓ Completed tbl_14 with 19,201,035 rows
+02:40:24 [INFO]: ✓ Completed tbl_13 with 18,867,868 rows
+02:49:55 [INFO]: Loaded tbl_16 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_16.csv and removed CSV.
+02:49:55 [INFO]: ✓ Completed tbl_16 with 18,638,249 rows
+02:50:14 [INFO]: Loaded tbl_17 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_17.csv and removed CSV.
+02:50:14 [INFO]: ✓ Completed tbl_17 with 18,293,521 rows
+02:51:50 [INFO]: Loaded tbl_18 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_18.csv and removed CSV.
+02:51:50 [INFO]: ✓ Completed tbl_18 with 19,005,115 rows
+02:54:47 [INFO]: Loaded tbl_20 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_20.csv and removed CSV.
+02:54:47 [INFO]: ✓ Completed tbl_20 with 18,861,572 rows
+02:55:05 [INFO]: Loaded tbl_19 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_19.csv and removed CSV.
+02:55:05 [INFO]: ✓ Completed tbl_19 with 19,041,901 rows
+02:55:31 [INFO]: Loaded tbl_21 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_21.csv and removed CSV.
+02:55:31 [INFO]: ✓ Completed tbl_21 with 18,095,606 rows
+02:56:04 [INFO]: Loaded tbl_23 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_23.csv and removed CSV.
+02:56:04 [INFO]: ✓ Completed tbl_23 with 18,753,869 rows
+02:56:42 [INFO]: Loaded tbl_22 from /space/azure_mysql_csvs/sbera-500gb-1500tables/baseline/tbl_22.csv and removed CSV.
+02:56:42 [INFO]: ✓ Completed tbl_22 with 19,548,463 rows
+03:05:14 [INFO]: Logging → logs/sbera-100gb-100tables_baseline.log
+03:05:14 [INFO]: Ensured database exists: synthetic_100gb_db
+03:05:14 [INFO]: Starting scenario 'baseline' (Baseline ingestion performance)
+03:05:14 [INFO]: Database: synthetic_100gb_db | Target 100GB | 100 tables | parallelism 8 | CSV workers 8
+03:05:14 [INFO]: Using avg_row_bytes ≈ 60.00, rows/table ≈ 17,895,697
+03:05:14 [INFO]: 🚀 Generating and loading 100 tables in pipeline mode using 8 workers...
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 343, in run_scenario
+    for f in concurrent.futures.as_completed(futures):
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 245, in as_completed
+    waiter.event.wait(wait_timeout)
+  File "/usr/lib/python3.10/threading.py", line 607, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/lib/python3.10/threading.py", line 320, in wait
+    waiter.acquire()
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 366, in <module>
+    run_scenario(args.scenario, load_only=args.load_only)
+  File "/home/cohesity/PycharmProjects/azure_mysql_pumper/generate_mysql_csv_and_load.py", line 341, in run_scenario
+    with concurrent.futures.ThreadPoolExecutor(max_workers=parallelism) as ex:
+  File "/usr/lib/python3.10/concurrent/futures/_base.py", line 649, in __exit__
+    self.shutdown(wait=True)
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 235, in shutdown
+    t.join()
+  File "/usr/lib/python3.10/threading.py", line 1096, in join
+    self._wait_for_tstate_lock()
+  File "/usr/lib/python3.10/threading.py", line 1116, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+KeyboardInterrupt
+Exception ignored in: <module 'threading' from '/usr/lib/python3.10/threading.py'>
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/threading.py", line 1537, in _shutdown
+    atexit_call()
+  File "/usr/lib/python3.10/concurrent/futures/thread.py", line 31, in _python_exit
+    t.join()
+  File "/usr/lib/python3.10/threading.py", line 1096, in join
+    self._wait_for_tstate_lock()
+  File "/usr/lib/python3.10/threading.py", line 1116, in _wait_for_tstate_lock
+    if lock.acquire(block, timeout):
+KeyboardInterrupt: 
+03:06:22 [INFO]: Logging → logs/sbera-100gb-100tables_baseline.log
+03:06:22 [INFO]: Ensured database exists: synthetic_100gb_db
+03:06:22 [INFO]: Starting scenario 'baseline' (Baseline ingestion performance)
+03:06:22 [INFO]: Database: synthetic_100gb_db | Target 100GB | 100 tables | parallelism 8 | CSV workers 8
+03:06:22 [INFO]: Using avg_row_bytes ≈ 60.00, rows/table ≈ 17,895,697
+03:06:22 [INFO]: 🚀 Generating and loading 100 tables in pipeline mode using 8 workers...
+03:23:41 [INFO]: Loaded tbl_7 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_7.csv and removed CSV.
+03:23:41 [INFO]: ✓ Completed tbl_7 with 17,969,931 rows
+03:24:34 [INFO]: Loaded tbl_3 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_3.csv and removed CSV.
+03:24:34 [INFO]: ✓ Completed tbl_3 with 18,418,851 rows
+03:24:42 [INFO]: Loaded tbl_1 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_1.csv and removed CSV.
+03:24:42 [INFO]: ✓ Completed tbl_1 with 18,612,521 rows
+03:24:48 [INFO]: Loaded tbl_6 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_6.csv and removed CSV.
+03:24:48 [INFO]: Loaded tbl_2 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_2.csv and removed CSV.
+03:24:49 [INFO]: ✓ Completed tbl_6 with 18,786,933 rows
+03:24:49 [INFO]: ✓ Completed tbl_2 with 18,243,177 rows
+03:25:01 [INFO]: Loaded tbl_4 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_4.csv and removed CSV.
+03:25:01 [INFO]: ✓ Completed tbl_4 with 19,322,175 rows
+03:25:07 [INFO]: Loaded tbl_5 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_5.csv and removed CSV.
+03:25:07 [INFO]: Loaded tbl_0 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_0.csv and removed CSV.
+03:25:07 [INFO]: ✓ Completed tbl_5 with 18,587,240 rows
+03:25:07 [INFO]: ✓ Completed tbl_0 with 19,133,751 rows
+03:33:27 [INFO]: Loaded tbl_8 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_8.csv and removed CSV.
+03:33:27 [INFO]: ✓ Completed tbl_8 with 18,545,731 rows
+03:37:43 [INFO]: Loaded tbl_9 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_9.csv and removed CSV.
+03:37:43 [INFO]: ✓ Completed tbl_9 with 18,084,335 rows
+03:41:23 [INFO]: Loaded tbl_11 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_11.csv and removed CSV.
+03:41:23 [INFO]: ✓ Completed tbl_11 with 18,069,548 rows
+03:41:30 [INFO]: Loaded tbl_12 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_12.csv and removed CSV.
+03:41:30 [INFO]: ✓ Completed tbl_12 with 18,247,204 rows
+03:41:45 [INFO]: Loaded tbl_10 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_10.csv and removed CSV.
+03:41:45 [INFO]: Loaded tbl_13 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_13.csv and removed CSV.
+03:41:45 [INFO]: ✓ Completed tbl_10 with 19,048,142 rows
+03:41:45 [INFO]: ✓ Completed tbl_13 with 18,037,483 rows
+03:41:56 [INFO]: Loaded tbl_14 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_14.csv and removed CSV.
+03:41:56 [INFO]: ✓ Completed tbl_14 with 18,535,179 rows
+03:42:05 [INFO]: Loaded tbl_15 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_15.csv and removed CSV.
+03:42:05 [INFO]: ✓ Completed tbl_15 with 19,453,543 rows
+03:45:40 [INFO]: Loaded tbl_16 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_16.csv and removed CSV.
+03:45:40 [INFO]: ✓ Completed tbl_16 with 18,221,691 rows
+03:50:35 [INFO]: Loaded tbl_17 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_17.csv and removed CSV.
+03:50:35 [INFO]: ✓ Completed tbl_17 with 18,730,007 rows
+03:57:19 [INFO]: Loaded tbl_18 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_18.csv and removed CSV.
+03:57:19 [INFO]: ✓ Completed tbl_18 with 19,434,471 rows
+03:57:53 [INFO]: Loaded tbl_22 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_22.csv and removed CSV.
+03:57:53 [INFO]: ✓ Completed tbl_22 with 18,294,360 rows
+03:58:02 [INFO]: Loaded tbl_19 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_19.csv and removed CSV.
+03:58:02 [INFO]: ✓ Completed tbl_19 with 18,825,761 rows
+03:58:18 [INFO]: Loaded tbl_20 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_20.csv and removed CSV.
+03:58:18 [INFO]: ✓ Completed tbl_20 with 18,932,130 rows
+03:58:38 [INFO]: Loaded tbl_23 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_23.csv and removed CSV.
+03:58:38 [INFO]: ✓ Completed tbl_23 with 19,060,992 rows
+03:58:48 [INFO]: Loaded tbl_21 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_21.csv and removed CSV.
+03:58:48 [INFO]: ✓ Completed tbl_21 with 19,651,752 rows
+04:00:34 [INFO]: Loaded tbl_24 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_24.csv and removed CSV.
+04:00:34 [INFO]: ✓ Completed tbl_24 with 18,754,145 rows
+04:05:59 [INFO]: Loaded tbl_25 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_25.csv and removed CSV.
+04:05:59 [INFO]: ✓ Completed tbl_25 with 18,923,106 rows
+04:11:13 [INFO]: Loaded tbl_26 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_26.csv and removed CSV.
+04:11:13 [INFO]: ✓ Completed tbl_26 with 17,927,245 rows
+04:13:23 [INFO]: Loaded tbl_27 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_27.csv and removed CSV.
+04:13:23 [INFO]: ✓ Completed tbl_27 with 18,266,591 rows
+04:13:23 [INFO]: Loaded tbl_28 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_28.csv and removed CSV.
+04:13:23 [INFO]: ✓ Completed tbl_28 with 18,152,685 rows
+04:13:50 [INFO]: Loaded tbl_31 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_31.csv and removed CSV.
+04:13:50 [INFO]: ✓ Completed tbl_31 with 18,185,587 rows
+04:14:41 [INFO]: Loaded tbl_30 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_30.csv and removed CSV.
+04:14:41 [INFO]: ✓ Completed tbl_30 with 19,338,278 rows
+04:14:41 [INFO]: Loaded tbl_29 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_29.csv and removed CSV.
+04:14:41 [INFO]: ✓ Completed tbl_29 with 19,350,084 rows
+04:15:17 [INFO]: Loaded tbl_32 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_32.csv and removed CSV.
+04:15:17 [INFO]: ✓ Completed tbl_32 with 18,678,671 rows
+04:21:07 [INFO]: Loaded tbl_33 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_33.csv and removed CSV.
+04:21:07 [INFO]: ✓ Completed tbl_33 with 19,269,292 rows
+04:25:33 [INFO]: Loaded tbl_34 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_34.csv and removed CSV.
+04:25:33 [INFO]: ✓ Completed tbl_34 with 18,783,485 rows
+04:28:46 [INFO]: Loaded tbl_35 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_35.csv and removed CSV.
+04:28:46 [INFO]: ✓ Completed tbl_35 with 18,838,392 rows
+04:29:26 [INFO]: Loaded tbl_36 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_36.csv and removed CSV.
+04:29:26 [INFO]: ✓ Completed tbl_36 with 19,030,402 rows
+04:29:38 [INFO]: Loaded tbl_37 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_37.csv and removed CSV.
+04:29:39 [INFO]: ✓ Completed tbl_37 with 18,784,705 rows
+04:30:50 [INFO]: Loaded tbl_39 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_39.csv and removed CSV.
+04:30:50 [INFO]: ✓ Completed tbl_39 with 19,270,309 rows
+04:31:15 [INFO]: Loaded tbl_38 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_38.csv and removed CSV.
+04:31:15 [INFO]: ✓ Completed tbl_38 with 19,509,662 rows
+04:31:36 [INFO]: Loaded tbl_40 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_40.csv and removed CSV.
+04:31:36 [INFO]: ✓ Completed tbl_40 with 19,560,372 rows
+04:36:06 [INFO]: Loaded tbl_41 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_41.csv and removed CSV.
+04:36:06 [INFO]: ✓ Completed tbl_41 with 18,494,925 rows
+04:41:38 [INFO]: Loaded tbl_42 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_42.csv and removed CSV.
+04:41:38 [INFO]: ✓ Completed tbl_42 with 19,665,470 rows
+04:43:11 [INFO]: Loaded tbl_43 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_43.csv and removed CSV.
+04:43:11 [INFO]: ✓ Completed tbl_43 with 17,954,644 rows
+04:45:08 [INFO]: Loaded tbl_45 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_45.csv and removed CSV.
+04:45:08 [INFO]: ✓ Completed tbl_45 with 18,322,503 rows
+04:45:23 [INFO]: Loaded tbl_44 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_44.csv and removed CSV.
+04:45:23 [INFO]: ✓ Completed tbl_44 with 19,089,527 rows
+04:45:53 [INFO]: Loaded tbl_46 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_46.csv and removed CSV.
+04:45:53 [INFO]: ✓ Completed tbl_46 with 18,726,870 rows
+04:46:15 [INFO]: Loaded tbl_48 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_48.csv and removed CSV.
+04:46:15 [INFO]: ✓ Completed tbl_48 with 17,935,111 rows
+04:46:57 [INFO]: Loaded tbl_47 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_47.csv and removed CSV.
+04:46:57 [INFO]: ✓ Completed tbl_47 with 19,211,136 rows
+04:51:44 [INFO]: Loaded tbl_49 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_49.csv and removed CSV.
+04:51:44 [INFO]: ✓ Completed tbl_49 with 18,979,482 rows
+04:57:27 [INFO]: Loaded tbl_50 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_50.csv and removed CSV.
+04:57:27 [INFO]: ✓ Completed tbl_50 with 19,254,398 rows
+04:58:23 [INFO]: Loaded tbl_51 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_51.csv and removed CSV.
+04:58:23 [INFO]: ✓ Completed tbl_51 with 18,717,479 rows
+05:00:14 [INFO]: Loaded tbl_54 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_54.csv and removed CSV.
+05:00:14 [INFO]: ✓ Completed tbl_54 with 17,993,698 rows
+05:00:58 [INFO]: Loaded tbl_52 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_52.csv and removed CSV.
+05:00:58 [INFO]: ✓ Completed tbl_52 with 18,835,092 rows
+05:01:12 [INFO]: Loaded tbl_53 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_53.csv and removed CSV.
+05:01:12 [INFO]: ✓ Completed tbl_53 with 19,202,029 rows
+05:01:45 [INFO]: Loaded tbl_55 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_55.csv and removed CSV.
+05:01:45 [INFO]: ✓ Completed tbl_55 with 19,106,559 rows
+05:02:54 [INFO]: Loaded tbl_56 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_56.csv and removed CSV.
+05:02:54 [INFO]: ✓ Completed tbl_56 with 19,497,956 rows
+05:07:29 [INFO]: Loaded tbl_57 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_57.csv and removed CSV.
+05:07:29 [INFO]: ✓ Completed tbl_57 with 19,605,482 rows
+05:12:31 [INFO]: Loaded tbl_58 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_58.csv and removed CSV.
+05:12:31 [INFO]: ✓ Completed tbl_58 with 18,684,925 rows
+05:13:30 [INFO]: Loaded tbl_59 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_59.csv and removed CSV.
+05:13:30 [INFO]: ✓ Completed tbl_59 with 18,287,327 rows
+05:15:38 [INFO]: Loaded tbl_60 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_60.csv and removed CSV.
+05:15:38 [INFO]: ✓ Completed tbl_60 with 18,759,177 rows
+05:16:43 [INFO]: Loaded tbl_63 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_63.csv and removed CSV.
+05:16:43 [INFO]: ✓ Completed tbl_63 with 18,517,809 rows
+05:16:59 [INFO]: Loaded tbl_61 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_61.csv and removed CSV.
+05:16:59 [INFO]: ✓ Completed tbl_61 with 19,083,168 rows
+05:16:59 [INFO]: Loaded tbl_62 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_62.csv and removed CSV.
+05:16:59 [INFO]: ✓ Completed tbl_62 with 18,833,801 rows
+05:18:04 [INFO]: Loaded tbl_64 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_64.csv and removed CSV.
+05:18:04 [INFO]: ✓ Completed tbl_64 with 18,827,375 rows
+05:22:10 [INFO]: Loaded tbl_65 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_65.csv and removed CSV.
+05:22:10 [INFO]: ✓ Completed tbl_65 with 18,443,281 rows
+05:27:39 [INFO]: Loaded tbl_66 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_66.csv and removed CSV.
+05:27:39 [INFO]: ✓ Completed tbl_66 with 18,940,364 rows
+05:29:26 [INFO]: Loaded tbl_67 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_67.csv and removed CSV.
+05:29:26 [INFO]: ✓ Completed tbl_67 with 19,597,284 rows
+05:31:00 [INFO]: Loaded tbl_68 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_68.csv and removed CSV.
+05:31:00 [INFO]: ✓ Completed tbl_68 with 19,516,908 rows
+05:31:39 [INFO]: Loaded tbl_69 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_69.csv and removed CSV.
+05:31:39 [INFO]: ✓ Completed tbl_69 with 18,406,911 rows
+05:32:48 [INFO]: Loaded tbl_71 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_71.csv and removed CSV.
+05:32:48 [INFO]: Loaded tbl_70 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_70.csv and removed CSV.
+05:32:48 [INFO]: ✓ Completed tbl_71 with 18,384,905 rows
+05:32:48 [INFO]: ✓ Completed tbl_70 with 18,584,281 rows
+05:33:02 [INFO]: Loaded tbl_72 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_72.csv and removed CSV.
+05:33:02 [INFO]: ✓ Completed tbl_72 with 18,411,313 rows
+05:37:32 [INFO]: Loaded tbl_73 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_73.csv and removed CSV.
+05:37:32 [INFO]: ✓ Completed tbl_73 with 19,162,614 rows
+05:42:21 [INFO]: Loaded tbl_74 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_74.csv and removed CSV.
+05:42:21 [INFO]: ✓ Completed tbl_74 with 18,355,725 rows
+05:44:45 [INFO]: Loaded tbl_75 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_75.csv and removed CSV.
+05:44:45 [INFO]: ✓ Completed tbl_75 with 19,681,434 rows
+05:46:00 [INFO]: Loaded tbl_76 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_76.csv and removed CSV.
+05:46:00 [INFO]: ✓ Completed tbl_76 with 18,569,779 rows
+05:46:29 [INFO]: Loaded tbl_77 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_77.csv and removed CSV.
+05:46:29 [INFO]: ✓ Completed tbl_77 with 18,829,782 rows
+05:49:08 [INFO]: Loaded tbl_79 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_79.csv and removed CSV.
+05:49:08 [INFO]: ✓ Completed tbl_79 with 19,124,675 rows
+05:49:26 [INFO]: Loaded tbl_80 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_80.csv and removed CSV.
+05:49:26 [INFO]: ✓ Completed tbl_80 with 18,966,743 rows
+05:49:34 [INFO]: Loaded tbl_78 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_78.csv and removed CSV.
+05:49:34 [INFO]: ✓ Completed tbl_78 with 19,576,609 rows
+05:53:29 [INFO]: Loaded tbl_81 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_81.csv and removed CSV.
+05:53:29 [INFO]: ✓ Completed tbl_81 with 19,573,044 rows
+05:56:22 [INFO]: Loaded tbl_82 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_82.csv and removed CSV.
+05:56:22 [INFO]: ✓ Completed tbl_82 with 17,935,588 rows
+05:59:48 [INFO]: Loaded tbl_83 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_83.csv and removed CSV.
+05:59:48 [INFO]: ✓ Completed tbl_83 with 18,831,090 rows
+06:00:44 [INFO]: Loaded tbl_84 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_84.csv and removed CSV.
+06:00:44 [INFO]: ✓ Completed tbl_84 with 18,113,167 rows
+06:01:43 [INFO]: Loaded tbl_85 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_85.csv and removed CSV.
+06:01:43 [INFO]: ✓ Completed tbl_85 with 18,756,651 rows
+06:04:12 [INFO]: Loaded tbl_86 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_86.csv and removed CSV.
+06:04:12 [INFO]: ✓ Completed tbl_86 with 18,408,162 rows
+06:05:03 [INFO]: Loaded tbl_88 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_88.csv and removed CSV.
+06:05:03 [INFO]: ✓ Completed tbl_88 with 18,377,968 rows
+06:05:15 [INFO]: Loaded tbl_87 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_87.csv and removed CSV.
+06:05:15 [INFO]: ✓ Completed tbl_87 with 18,215,983 rows
+06:09:07 [INFO]: Loaded tbl_89 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_89.csv and removed CSV.
+06:09:07 [INFO]: ✓ Completed tbl_89 with 19,173,924 rows
+06:12:23 [INFO]: Loaded tbl_90 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_90.csv and removed CSV.
+06:12:23 [INFO]: ✓ Completed tbl_90 with 19,655,344 rows
+06:15:39 [INFO]: Loaded tbl_91 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_91.csv and removed CSV.
+06:15:39 [INFO]: ✓ Completed tbl_91 with 19,324,823 rows
+06:16:05 [INFO]: Loaded tbl_92 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_92.csv and removed CSV.
+06:16:05 [INFO]: ✓ Completed tbl_92 with 18,492,228 rows
+06:17:02 [INFO]: Loaded tbl_93 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_93.csv and removed CSV.
+06:17:02 [INFO]: ✓ Completed tbl_93 with 18,984,164 rows
+06:18:50 [INFO]: Loaded tbl_94 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_94.csv and removed CSV.
+06:18:50 [INFO]: ✓ Completed tbl_94 with 18,864,912 rows
+06:19:37 [INFO]: Loaded tbl_96 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_96.csv and removed CSV.
+06:19:37 [INFO]: ✓ Completed tbl_96 with 19,091,168 rows
+06:19:44 [INFO]: Loaded tbl_95 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_95.csv and removed CSV.
+06:19:44 [INFO]: ✓ Completed tbl_95 with 18,969,398 rows
+06:21:28 [INFO]: Loaded tbl_97 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_97.csv and removed CSV.
+06:21:28 [INFO]: ✓ Completed tbl_97 with 19,445,371 rows
+06:21:56 [INFO]: Loaded tbl_98 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_98.csv and removed CSV.
+06:21:56 [INFO]: ✓ Completed tbl_98 with 17,984,278 rows
+06:22:39 [INFO]: Loaded tbl_99 from /space/azure_mysql_csvs/sbera-100gb-100tables/baseline/tbl_99.csv and removed CSV.
+06:22:39 [INFO]: ✓ Completed tbl_99 with 17,918,832 rows
+06:22:40 [INFO]: ✅ Final DB size 101.91GB with 1,879,124,565 rows
+06:22:40 [INFO]: 📏 Measured average row size: 58.23 bytes
+06:22:40 [INFO]: 🎯 Ingestion complete.

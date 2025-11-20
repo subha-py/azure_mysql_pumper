@@ -34,24 +34,28 @@ SCENARIOS = {
         "description": "Minimal load sanity test",
         "target_size_gb": 1,
         "tables": 5,
-        "parallelism": min(10, multiprocessing.cpu_count()),
-        "csv_workers": multiprocessing.cpu_count(),
+        "parallelism": max(5, multiprocessing.cpu_count()),
         "database": "synthetic_small_db",
     },
     "baseline": {
         "description": "Baseline ingestion performance",
         "target_size_gb": 100,
         "tables": 100,
-        "parallelism": multiprocessing.cpu_count(),
-        "csv_workers": multiprocessing.cpu_count(),
+        "parallelism": max(25, multiprocessing.cpu_count()),
         "database": "synthetic_100gb_db",
+    },
+    "baseline": {
+        "description": "10gb ingestion performance",
+        "target_size_gb": 10,
+        "tables": 20,
+        "parallelism": max(25, multiprocessing.cpu_count()),
+        "database": "synthetic_10gb_db",
     },
     "medium": {
         "description": "Medium-scale ingestion with high table count",
         "target_size_gb": 500,
         "tables": 1500,
-        "parallelism": multiprocessing.cpu_count(),
-        "csv_workers": multiprocessing.cpu_count(),
+        "parallelism": max(25, multiprocessing.cpu_count()),
         "database": "synthetic_500gb_db",
     },
 }
@@ -232,7 +236,6 @@ def run_scenario(scenario_name, load_only=False):
     target_gb = cfg["target_size_gb"]
     tables = cfg["tables"]
     parallelism = cfg["parallelism"]
-    csv_workers = cfg.get("csv_workers", multiprocessing.cpu_count())
     db_name = cfg.get("database", "synthetic_db")
 
     log_path = setup_logging(scenario_name)
@@ -262,7 +265,7 @@ def run_scenario(scenario_name, load_only=False):
     row_range = (rows_per_table, int(rows_per_table * 1.1))
 
     logging.info(f"Starting scenario '{scenario_name}' ({cfg['description']})")
-    logging.info(f"Database: {db_name} | Target {target_gb}GB | {tables} tables | parallelism {parallelism} | CSV workers {csv_workers}")
+    logging.info(f"Database: {db_name} | Target {target_gb}GB | {tables} tables | parallelism {parallelism}")
     logging.info(f"Using avg_row_bytes ≈ {avg_row_bytes:.2f}, rows/table ≈ {rows_per_table:,}")
 
     def table_exists(table_name, check_db_name=None):
