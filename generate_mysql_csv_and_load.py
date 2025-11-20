@@ -44,7 +44,7 @@ SCENARIOS = {
         "parallelism": max(25, multiprocessing.cpu_count()),
         "database": "synthetic_100gb_db",
     },
-    "baseline": {
+    "10gb": {
         "description": "10gb ingestion performance",
         "target_size_gb": 10,
         "tables": 20,
